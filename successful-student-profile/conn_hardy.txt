@@ -1,0 +1,1 @@
+dbname='analytics' user='u_yidong' host='udacity-segment.c2zpsqalam7o.us-west-2.redshift.amazonaws.com' port='5439' password='Lyd580809?!'
