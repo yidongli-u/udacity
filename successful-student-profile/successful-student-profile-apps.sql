@@ -28,8 +28,7 @@ SELECT DISTINCT a.id AS application_id,
                                greatest(coalesce(c.first_charge_attempt::date,a.first_charge_created_at::date) - a.cohort_notify_at::date,0) AS notify_to_pay,
                                coalesce(a.price,0)::int AS price
 FROM admissions.applications AS a
-LEFT JOIN enrollments.term_completions AS b ON a.applicant_id = b.user_id
-AND a.nd_key = b.nd_key
+LEFT JOIN enrollments.term_completions AS b ON a.applicant_id = b.user_id AND a.nd_key = b.nd_key
 LEFT JOIN
   (SELECT DISTINCT account_key,
                    nd_key,
@@ -59,4 +58,5 @@ LEFT JOIN enrollments.nanodegree_enrollments_registrar AS reg ON a.applicant_id 
 AND substring(a.nd_key,0,6) = substring(reg.course_key,0,6)
 WHERE accepted_at IS NOT NULL
   AND first_charge_created_at IS NOT NULL
+  AND application_type != 'scholarship'
   AND email NOT LIKE '%@udacity%'
